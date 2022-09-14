@@ -1,15 +1,15 @@
 const Auth = require("../../../models/Authentication/authmodel");
 const jwt = require("jsonwebtoken");
 function login(req, res) {
-  uid = req.query.uid;
-  password = req.query.password;
-  if (uid === undefined) {
+  console.log(req.body);
+  miid = req.body.miid;
+  password = req.body.password;
+  if (miid === undefined) {
     res.status(200).send({ status: "No Email id is provided" });
   } else if (password === undefined) {
     res.status(200).send({ status: "Password is not provided" });
   }
-  Auth.findOne({ uid: uid }).then((result) => {
-    console.log(result);
+  Auth.findOne({ miid: miid }).then((result) => {
     if (!result) {
       res.status(200).send({
         status: "User not found",
@@ -18,17 +18,19 @@ function login(req, res) {
     } else if (result._doc.password === password) {
       const token = jwt.sign(
         {
-          uid: uid,
+          miid: miid,
         },
-        "secretKey"
+        process.env.SCRETKEY
       );
-      res
-        .status(200)
-        .send({ status: "User logged in sucessfully", token: token });
+      res.status(200).send({
+        status: "User logged in sucessfully",
+        token: token,
+        miid: result._doc.miid,
+        username: result._doc.username,
+      });
     } else {
       res.status(200).send({
         status: "Password error",
-        uid: result._doc.uid,
       });
     }
   });

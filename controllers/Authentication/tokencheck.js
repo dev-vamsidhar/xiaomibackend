@@ -7,7 +7,7 @@ module.exports = function tokenCheck(req, res, next) {
     res.end();
   } else {
     try {
-      const decoded = jwt.verify(token, "secretKey");
+      const decoded = jwt.verify(token, process.env.SCRETKEY);
       res.locals.id = decoded.id;
       if (decoded.isBanned) {
         res.status(403).send("banned");
