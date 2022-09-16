@@ -8,6 +8,8 @@ const getcartitems = require("../controllers/Cart/getcartitems");
 const updatestoreprofile = require("../controllers/Authentication/profile/updatestoreprofile");
 const getprofile = require("../controllers/Authentication/profile/getprofile");
 const createorder = require("../controllers/order/createorder");
+const getorders = require("../controllers/order/getorder");
+
 var router = express.Router();
 
 router.post("/app/signup", signup); // user/create
@@ -23,4 +25,5 @@ router.post("/app/updatestoreprofile", updatestoreprofile); // profile/update
 router.post("/app/getprofile", getprofile);
 //Order
 router.post("/app/createorder", createorder);
+router.post("/app/getorders", getorders);
 module.exports = router;
